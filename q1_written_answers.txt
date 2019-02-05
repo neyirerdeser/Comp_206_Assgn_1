@@ -1,0 +1,88 @@
+===========================================================
+note:                                                     
+I used;                                                   
+$ for the lines that were/would be coded in the terminal, 
+and regular ones for my explanations                      
+==> shows the answer printed by the code at the end       
+===========================================================
+
+(a)
+
+$ cut -f1 -d" " cat  Q1/*.dat | sort -g
+
+it will take the first word (the weight) of each .dat file, which store animal weights and lengths then sort them in increasin numerical order
+
+==>
+104kg
+364kg
+450kg
+1000kg
+1800kg
+4900kg
+29000kg
+110000kgg
+
+(b)
+
+$ cut -f2 -d" " cat Q1/*.dat | sort -rg
+i used the same cut command with sort again to ouput the 2nd words this time and in decreasing numerical order
+
+==>
+24m
+4.5m
+6m
+5.15m
+4m
+13.5m
+2.1m
+2.0m
+
+(c)
+
+we could write a bash program for this (or enter the lines seperately of course)
+I'll make for each animal in question (elephant and hippopotamus); a variable to hold the first word in their .dat file (their weight) and another to hold the weight without kg at the end. Then i'll compare the two values and print the name of the animal with greater weight
+
+the code:
+
+$ elephant=`cut -f1 -d" " Q1/elephant.dat`
+$ elep_num=`echo $elephant | sed 's/..$//'`
+
+$ hippopotamus=`cut -f1 -d" " Q1/hippopotamus.dat`
+$ hippo_num=`echo $hippopotamus | sed 's/..$//'`
+
+$ if [ $elep_num -gt $hippo_num ]
+$ then
+$ 	echo elephant
+$ elif [ $hippo_num -gt $elep_num ]
+$ then
+$ 	echo hippopotamus
+$ else
+$ 	echo same
+$ fi
+
+==> elephant
+
+(d)
+
+this is another one that i think would be better as a seperate bash program, like (c)
+we'll seperate the words in the .dat file into two variables
+from the first word which is the numbers indicating the weight and kg at the end, we'll take out the last two characters so we're left with the numbers only
+then add 2 to this number and make a new line with the new number + kg at the end of it + the second word of the original file unchanged
+finally we can make this line into a file with the same name as crocodile.dat so it replaces the original file
+
+this would be the code:
+
+$ weightWord=`cut -f1 -d" " Q1/crocodile.dat`
+$ heigthWord=`cut -f2 -d" " Q1/crocodile.dat`
+
+$ weight=`echo $weightWord | sed 's/..$//'`
+
+$ newWeight=$(($weight+2))
+
+$ echo $newWeight"kg" $heigthWord > Q1/crocodile.dat
+
+(e)
+
+$ rm giraffe.*
+will delete all files of giraffe
+sorry giraffe
